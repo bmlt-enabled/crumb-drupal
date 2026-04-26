@@ -24,6 +24,7 @@ Initial release. Wraps the [Crumb meeting finder widget](https://github.com/bmlt
 - **PHPUnit unit tests** for the renderer (server overrides, view validation, base path, full-width template, widget-config emission, geolocation merge).
 - `README.md`, `CONTRIBUTING.md`, and this `CHANGELOG.md`.
 - Crumb logo (`crumb-logo.svg`) and project icon (`icon-256x256.png`).
+- `LICENSE.txt` (GPL-2.0-or-later) — required for drupal.org publication.
 
 [Unreleased]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/bmlt-enabled/crumb-drupal/releases/tag/v0.1.0

@@ -69,12 +69,15 @@ jobs:
       - name: Build package 🔧
         run: |
           export ZIP_FILENAME=${MODULE}-${GITHUB_REF##*/}.zip
-          find ./ -type d | xargs chmod 755
-          find ./ -name '*.php' | xargs chmod 644
-          echo ${GITHUB_SHA} > build.txt
+          find ./ -type d -exec chmod 755 {} +
+          find ./ -name '*.php' -exec chmod 644 {} +
           make build
-          # `make build` archives via git archive; injecting build.txt for traceability.
-          zip $BUILD_DIR/$ZIP_FILENAME build.txt
+          # Embed the build SHA INSIDE the module directory of the zip,
+          # so the zip extracts cleanly as a single self-contained module dir.
+          mkdir -p $BUILD_DIR/_inject/$MODULE
+          echo $GITHUB_SHA > $BUILD_DIR/_inject/$MODULE/build.txt
+          (cd $BUILD_DIR/_inject && zip -g "../$ZIP_FILENAME" $MODULE/build.txt)
+          rm -rf $BUILD_DIR/_inject
           mkdir -p $DIST_DIR_GITHUB && cp $BUILD_DIR/$ZIP_FILENAME $DIST_DIR_GITHUB/$GITHUB_RELEASE_FILENAME
           echo "ARTIFACT_PATH=$DIST_DIR_GITHUB/$GITHUB_RELEASE_FILENAME" >> $GITHUB_ENV
           echo "ARTIFACT_NAME=${ZIP_FILENAME}" >> $GITHUB_ENV

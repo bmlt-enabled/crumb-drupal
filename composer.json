@@ -2,7 +2,7 @@
   "name": "bmlt-enabled/crumb-drupal",
   "description": "Crumb Drupal module - embeds the Crumb meeting finder widget.",
   "type": "drupal-module",
-  "license": "MIT",
+  "license": "GPL-2.0-or-later",
   "authors": [
     {
       "name": "bmlt-enabled"
