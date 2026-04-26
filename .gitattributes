@@ -12,4 +12,6 @@ docker/ export-ignore
 tests/ export-ignore
 .github/ export-ignore
 README.md export-ignore
+CHANGELOG.md export-ignore
+CONTRIBUTING.md export-ignore
 crumb-logo.svg export-ignore
