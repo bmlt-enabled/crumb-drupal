@@ -14,4 +14,4 @@ tests/ export-ignore
 README.md export-ignore
 CHANGELOG.md export-ignore
 CONTRIBUTING.md export-ignore
-crumb-logo.svg export-ignore
+icon-256x256.png export-ignore

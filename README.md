@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="crumb-logo.svg" alt="Crumb Widget logo" width="128" height="128">
+</p>
+
 # Crumb for Drupal
 
 Drupal module that embeds the [Crumb Widget](https://github.com/bmlt-enabled/crumb-widget) meeting finder via a block, a `[crumb]` shortcode in filtered text, or programmatically via a render service.

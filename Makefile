@@ -1,7 +1,11 @@
 COMMIT := $(shell git rev-parse --short=8 HEAD 2>/dev/null || echo "untagged")
 BUILD_DIR := $(or $(BUILD_DIR),build)
 BASENAME := $(shell basename $(PWD))
-ZIP_FILE := $(BUILD_DIR)/$(BASENAME).zip
+# Canonical Drupal module name — controls the directory inside the zip.
+MODULE := crumb
+# Zip filename can be overridden via env (CI sets it to e.g. crumb-v0.1.0.zip).
+ZIP_FILENAME := $(or $(ZIP_FILENAME),$(BASENAME).zip)
+ZIP_FILE := $(BUILD_DIR)/$(ZIP_FILENAME)
 VENDOR_AUTOLOAD := vendor/autoload.php
 
 ifeq ($(PROD)x, x)
@@ -13,12 +17,10 @@ endif
 help:  ## Print the help documentation
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
-$(ZIP_FILE):
-	mkdir -p $(BUILD_DIR)
-	git archive --format=zip --prefix=crumb/ --output=$(ZIP_FILE) HEAD
-
 .PHONY: build
-build: $(ZIP_FILE)  ## Build a distributable zip
+build:  ## Build a distributable zip
+	mkdir -p $(BUILD_DIR)
+	git archive --format=zip --prefix=$(MODULE)/ --output=$(ZIP_FILE) HEAD
 
 .PHONY: clean
 clean:  ## Remove build artifacts
