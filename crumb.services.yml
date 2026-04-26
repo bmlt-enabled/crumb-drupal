@@ -1,0 +1,4 @@
+services:
+  crumb.renderer:
+    class: Drupal\crumb\CrumbRenderer
+    arguments: ['@config.factory', '@module_handler']

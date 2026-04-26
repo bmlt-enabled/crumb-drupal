@@ -1,0 +1,10 @@
+.project
+.settings/*
+.vscode/*
+.DS_Store
+.idea
+vendor/
+build/
+*.zip
+.phpunit.result.cache
+.phpunit.cache/

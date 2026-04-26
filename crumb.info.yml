@@ -1,0 +1,6 @@
+name: Crumb
+type: module
+description: 'Embeds the Crumb meeting finder widget on any page or content using a block, filter, or render function.'
+package: BMLT
+core_version_requirement: ^10.3 || ^11
+configure: crumb.settings

@@ -1,0 +1,53 @@
+name: "pull-request"
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out code 🛒
+        uses: actions/checkout@v6
+
+      - name: Setup PHP 🐫
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          tools: composer
+
+      - name: Install dependencies 📦
+        run: composer install --prefer-dist --no-progress
+
+      - name: Linter 🧹
+        run: make lint
+
+      - name: PHP syntax check 🔍
+        run: |
+          set -e
+          find . -type f \( -name '*.php' -o -name '*.module' -o -name '*.install' \) \
+            ! -path './vendor/*' ! -path './build/*' -print0 \
+            | xargs -0 -n1 -P4 php -l
+
+  test:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        php-version: ["8.3", "8.4"]
+    steps:
+      - name: Check out code 🛒
+        uses: actions/checkout@v6
+
+      - name: Setup PHP 🐫
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, dom, gd, pdo_sqlite
+          tools: composer
+
+      - name: Install dependencies 📦
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run PHPUnit 🧪
+        run: vendor/bin/phpunit --colors=always

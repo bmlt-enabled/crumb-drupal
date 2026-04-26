@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Crumb meeting finder module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_help().
+ */
+function crumb_help(string $route_name): string {
+  if ($route_name === 'help.page.crumb') {
+    return '<p>' . t('Embeds the <a href="https://crumb.bmlt.app/" target="_blank">Crumb meeting finder widget</a>. Configure at <em>Configuration → Web services → Crumb</em>, then place the block or use the <code>[crumb]</code> shortcode in a filtered text format.') . '</p>';
+  }
+  return '';
+}
+
+/**
+ * Implements hook_theme().
+ */
+function crumb_theme(): array {
+  return [];
+}

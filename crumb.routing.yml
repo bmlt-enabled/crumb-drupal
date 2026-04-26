@@ -1,0 +1,7 @@
+crumb.settings:
+  path: '/admin/config/services/crumb'
+  defaults:
+    _form: '\Drupal\crumb\Form\CrumbSettingsForm'
+    _title: 'Crumb Settings'
+  requirements:
+    _permission: 'administer crumb'

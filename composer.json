@@ -1,0 +1,33 @@
+{
+  "name": "bmlt-enabled/crumb-drupal",
+  "description": "Crumb Drupal module - embeds the Crumb meeting finder widget.",
+  "type": "drupal-module",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "bmlt-enabled"
+    }
+  ],
+  "require": {
+    "php": ">=8.3"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.13",
+    "drupal/coder": "^8.3",
+    "phpcompatibility/php-compatibility": "^9.3",
+    "phpunit/phpunit": "^10.5"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "platform": {
+      "php": "8.3.0"
+    }
+  },
+  "scripts": {
+    "lint": "vendor/bin/phpcs",
+    "fmt": "vendor/bin/phpcbf",
+    "test": "vendor/bin/phpunit"
+  }
+}

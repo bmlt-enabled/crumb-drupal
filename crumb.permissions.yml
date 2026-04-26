@@ -1,0 +1,4 @@
+administer crumb:
+  title: 'Administer Crumb'
+  description: 'Configure the Crumb meeting finder widget.'
+  restrict access: true

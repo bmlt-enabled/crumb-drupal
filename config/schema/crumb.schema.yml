@@ -1,0 +1,43 @@
+crumb.settings:
+  type: config_object
+  label: 'Crumb settings'
+  mapping:
+    server:
+      type: string
+      label: 'BMLT Server URL'
+    service_body:
+      type: string
+      label: 'Service Body IDs'
+    view:
+      type: string
+      label: 'Default view'
+    css_template:
+      type: string
+      label: 'CSS template'
+    base_path:
+      type: string
+      label: 'Base path for pretty URLs'
+    widget_config:
+      type: string
+      label: 'Widget configuration JSON'
+
+block.settings.crumb_widget:
+  type: block_settings
+  label: 'Crumb widget block'
+  mapping:
+    server:
+      type: string
+      label: 'BMLT Server URL override'
+    service_body:
+      type: string
+      label: 'Service Body IDs override'
+    view:
+      type: string
+      label: 'View override'
+    geolocation:
+      type: string
+      label: 'Geolocation override'
+
+filter_settings.crumb:
+  type: filter
+  label: 'Crumb shortcode filter'

@@ -1,0 +1,8 @@
+.crumb-full-width-force {
+  width: 100vw !important;
+  position: relative !important;
+  left: 50% !important;
+  margin-left: -50vw !important;
+  box-sizing: border-box !important;
+  max-width: none !important;
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<ruleset name="Crumb Drupal">
+  <description>Crumb Drupal module coding standards.</description>
+
+  <file>.</file>
+
+  <arg name="encoding" value="utf-8"/>
+  <arg name="extensions" value="php,module,inc,install,test,profile,theme"/>
+  <arg name="warning-severity" value="6"/>
+  <arg name="report" value="full"/>
+  <arg name="parallel" value="4"/>
+  <arg value="s"/>
+
+  <ini name="memory_limit" value="128M"/>
+
+  <exclude-pattern>vendor/*</exclude-pattern>
+  <exclude-pattern>build/*</exclude-pattern>
+  <exclude-pattern>docker/*</exclude-pattern>
+  <exclude-pattern>tests/*</exclude-pattern>
+
+  <rule ref="Drupal"/>
+  <rule ref="DrupalPractice"/>
+</ruleset>

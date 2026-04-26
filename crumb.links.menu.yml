@@ -1,0 +1,5 @@
+crumb.settings:
+  title: 'Crumb'
+  description: 'Configure the Crumb meeting finder widget.'
+  parent: system.admin_config_services
+  route_name: crumb.settings

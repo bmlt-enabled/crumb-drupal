@@ -1,0 +1,44 @@
+services:
+  drupal:
+    depends_on:
+      db:
+        condition: service_healthy
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+      - "7443:443"
+    environment:
+      DRUPAL_DB_HOST: db
+      DRUPAL_DB_NAME: drupal
+      DRUPAL_DB_USER: drupal
+      DRUPAL_DB_PASS: drupal
+      DRUPAL_SITE_NAME: "Crumb Dev"
+      DRUPAL_ADMIN_USER: admin
+      DRUPAL_ADMIN_PASS: admin
+      PHP_IDE_CONFIG: "serverName=crumb"
+    volumes:
+      - .:/opt/drupal/web/modules/custom/crumb
+      - drupal_files:/opt/drupal/web/sites/default/files
+
+  db:
+    image: mariadb:10.11
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: somedrupal
+      MARIADB_DATABASE: drupal
+      MARIADB_USER: drupal
+      MARIADB_PASSWORD: drupal
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  drupal_files:
+  db_data:
