@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   id = "crumb",
  *   title = @Translation("Crumb meeting finder shortcode"),
  *   description = @Translation("Replaces [crumb] / [crumb attr=&quot;value&quot;] with the meeting finder widget."),
- *   type = Drupal\filter\Plugin\FilterInterface::TYPE_MARKUP_LANGUAGE
+ *   type = Drupal\filter\Plugin\FilterInterface::TYPE_TRANSFORM_IRREVERSIBLE
  * )
  */
 class CrumbFilter extends FilterBase implements ContainerFactoryPluginInterface {

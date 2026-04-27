@@ -59,7 +59,10 @@ class CrumbRendererTest extends TestCase {
     $this->assertSame('crumb-widget', $widget['#attributes']['id']);
     $this->assertSame('https://example.com/main_server/', $widget['#attributes']['data-server']);
     $this->assertSame('42', $widget['#attributes']['data-service-body']);
-    $this->assertContains('crumb/widget', $widget['#attached']['library']);
+    // #attached lives at the top of the build (so it bubbles through both
+    // BlockViewBuilder and FilterProcessResult), not inside the widget.
+    $this->assertContains('crumb/widget', $build['#attached']['library']);
+    $this->assertArrayNotHasKey('#attached', $widget);
   }
 
   public function testServerOverrideTakesPrecedence(): void {
@@ -115,7 +118,7 @@ class CrumbRendererTest extends TestCase {
     $build = $this->makeRenderer([
       'widget_config' => json_encode(['language' => 'es', 'height' => 800]),
     ])->build();
-    $head = $build['widget']['#attached']['html_head'] ?? [];
+    $head = $build['#attached']['html_head'] ?? [];
     $this->assertNotEmpty($head, 'Widget config must produce an html_head entry.');
     $this->assertStringContainsString('window.CrumbWidgetConfig', $head[0][0]['#value']);
     $this->assertStringContainsString('"language":"es"', $head[0][0]['#value']);
@@ -125,7 +128,7 @@ class CrumbRendererTest extends TestCase {
     $build = $this->makeRenderer([
       'widget_config' => json_encode(['height' => 600]),
     ])->build(['geolocation' => 'true']);
-    $head = $build['widget']['#attached']['html_head'] ?? [];
+    $head = $build['#attached']['html_head'] ?? [];
     $this->assertNotEmpty($head);
     $this->assertStringContainsString('"geolocation":true', $head[0][0]['#value']);
   }

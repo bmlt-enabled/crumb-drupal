@@ -61,10 +61,13 @@ class CrumbRenderer {
       '#type' => 'html_tag',
       '#tag' => 'div',
       '#attributes' => $attributes,
-      '#attached' => [
-        'library' => ['crumb/widget'],
-        'drupalSettings' => [],
-      ],
+    ];
+
+    // #attached lives at the TOP level so it bubbles correctly through both
+    // BlockViewBuilder (which only steals #attributes) and FilterProcessResult
+    // (which reads #attached / #cache via BubbleableMetadata::createFromRenderArray).
+    $attached = [
+      'library' => ['crumb/widget'],
     ];
 
     $config_array = $this->buildWidgetConfig();
@@ -79,7 +82,7 @@ class CrumbRenderer {
     $this->moduleHandler->alter('crumb_config', $config_array);
 
     if (!empty($config_array)) {
-      $widget['#attached']['html_head'][] = [
+      $attached['html_head'][] = [
         [
           '#tag' => 'script',
           '#value' => 'window.CrumbWidgetConfig = ' . json_encode(
@@ -92,7 +95,7 @@ class CrumbRenderer {
     }
 
     if ($template === 'full_width') {
-      $widget['#attached']['library'][] = 'crumb/full_width';
+      $attached['library'][] = 'crumb/full_width';
       return [
         'wrapper' => [
           '#type' => 'html_tag',
@@ -100,10 +103,11 @@ class CrumbRenderer {
           '#attributes' => ['class' => ['crumb-full-width']],
           'widget' => $widget,
         ],
+        '#attached' => $attached,
       ];
     }
     if ($template === 'full_width_force') {
-      $widget['#attached']['library'][] = 'crumb/full_width_force';
+      $attached['library'][] = 'crumb/full_width_force';
       return [
         'wrapper' => [
           '#type' => 'html_tag',
@@ -111,6 +115,7 @@ class CrumbRenderer {
           '#attributes' => ['class' => ['crumb-full-width-force']],
           'widget' => $widget,
         ],
+        '#attached' => $attached,
       ];
     }
 
@@ -119,6 +124,7 @@ class CrumbRenderer {
     // element's id and data-* attributes.
     return [
       'widget' => $widget,
+      '#attached' => $attached,
     ];
   }
 
