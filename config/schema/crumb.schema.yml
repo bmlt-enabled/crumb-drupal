@@ -8,6 +8,9 @@ crumb.settings:
     service_body:
       type: string
       label: 'Service Body IDs'
+    format_ids:
+      type: string
+      label: 'Format IDs'
     view:
       type: string
       label: 'Default view'
@@ -31,6 +34,9 @@ block.settings.crumb_widget:
     service_body:
       type: string
       label: 'Service Body IDs override'
+    format_ids:
+      type: string
+      label: 'Format IDs override'
     view:
       type: string
       label: 'View override'

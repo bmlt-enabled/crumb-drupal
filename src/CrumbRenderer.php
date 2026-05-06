@@ -38,6 +38,7 @@ class CrumbRenderer {
     }
 
     $service_body = $overrides['service_body'] ?? $config->get('service_body');
+    $format_ids   = $overrides['format_ids'] ?? $config->get('format_ids');
     $view_raw     = $overrides['view'] ?? $config->get('view') ?? '';
     $view         = in_array($view_raw, self::ALLOWED_VIEWS, TRUE) ? $view_raw : '';
     $base_path    = trim((string) ($config->get('base_path') ?? ''), '/');
@@ -49,6 +50,9 @@ class CrumbRenderer {
     ];
     if ($service_body !== NULL && $service_body !== '') {
       $attributes['data-service-body'] = trim((string) $service_body);
+    }
+    if ($format_ids !== NULL && $format_ids !== '') {
+      $attributes['data-format-ids'] = trim((string) $format_ids);
     }
     if ($view !== '') {
       $attributes['data-view'] = $view;

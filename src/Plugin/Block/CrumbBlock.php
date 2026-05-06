@@ -49,6 +49,7 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
     return [
       'server' => '',
       'service_body' => NULL,
+      'format_ids' => '',
       'view' => '',
       'geolocation' => '',
     ] + parent::defaultConfiguration();
@@ -71,6 +72,13 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#title' => $this->t('Service Body IDs'),
       '#description' => $this->t('Optional. Single ID or comma-separated. Leave blank to inherit; enter a single space to explicitly omit and show all meetings.'),
       '#default_value' => $config['service_body'] ?? '',
+    ];
+    $form['format_ids'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Format IDs'),
+      '#description' => $this->t('Optional. Single ID or comma-separated. Leave blank to inherit from global settings.'),
+      '#default_value' => $config['format_ids'] ?? '',
+      '#placeholder' => '17 or 17,54,78',
     ];
     $form['view'] = [
       '#type' => 'select',
@@ -100,7 +108,7 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state): void {
-    foreach (['server', 'service_body', 'view', 'geolocation'] as $key) {
+    foreach (['server', 'service_body', 'format_ids', 'view', 'geolocation'] as $key) {
       $this->configuration[$key] = $form_state->getValue($key);
     }
   }
@@ -118,6 +126,9 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
     // Treat a single space as the explicit "show all meetings" sentinel.
     if (isset($config['service_body']) && $config['service_body'] !== '') {
       $overrides['service_body'] = trim($config['service_body']);
+    }
+    if (isset($config['format_ids']) && $config['format_ids'] !== '') {
+      $overrides['format_ids'] = trim($config['format_ids']);
     }
     if (!empty($config['view'])) {
       $overrides['view'] = $config['view'];

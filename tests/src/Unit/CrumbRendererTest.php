@@ -21,6 +21,7 @@ class CrumbRendererTest extends TestCase {
     $defaults = [
       'server' => 'https://example.com/main_server/',
       'service_body' => '42',
+      'format_ids' => '',
       'view' => '',
       'css_template' => '',
       'base_path' => '',
@@ -84,6 +85,26 @@ class CrumbRendererTest extends TestCase {
       $build['widget']['#attributes'],
       'Empty string sentinel must omit the data-service-body attribute.',
     );
+  }
+
+  public function testFormatIdsOverrideAddsAttribute(): void {
+    $build = $this->makeRenderer()->build(['format_ids' => '17,54']);
+    $this->assertSame('17,54', $build['widget']['#attributes']['data-format-ids']);
+  }
+
+  public function testFormatIdsFromConfigAddsAttribute(): void {
+    $build = $this->makeRenderer(['format_ids' => '42'])->build();
+    $this->assertSame('42', $build['widget']['#attributes']['data-format-ids']);
+  }
+
+  public function testEmptyFormatIdsOmitsAttribute(): void {
+    $build = $this->makeRenderer(['format_ids' => ''])->build();
+    $this->assertArrayNotHasKey('data-format-ids', $build['widget']['#attributes']);
+  }
+
+  public function testEmptyFormatIdsOverrideOmitsAttribute(): void {
+    $build = $this->makeRenderer(['format_ids' => '99'])->build(['format_ids' => '']);
+    $this->assertArrayNotHasKey('data-format-ids', $build['widget']['#attributes']);
   }
 
   public function testInvalidViewIsIgnored(): void {
