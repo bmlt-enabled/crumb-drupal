@@ -1,5 +1,6 @@
 server: 'https://latest.aws.bmlt.app/main_server/'
 service_body: '1047,1048'
+format_ids: ''
 view: ''
 css_template: ''
 base_path: ''

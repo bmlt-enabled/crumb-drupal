@@ -75,7 +75,7 @@ class CrumbFilter extends FilterBase implements ContainerFactoryPluginInterface 
    */
   public function tips($long = FALSE) {
     if ($long) {
-      return $this->t('Use <code>[crumb]</code> to embed the Crumb meeting finder. Optional attributes: <code>server</code>, <code>service_body</code>, <code>view</code>, <code>geolocation</code>. Example: <code>[crumb server="https://your-server/main_server" service_body="42" view="map" geolocation="true"]</code>');
+      return $this->t('Use <code>[crumb]</code> to embed the Crumb meeting finder. Optional attributes: <code>server</code>, <code>service_body</code>, <code>format_ids</code>, <code>view</code>, <code>geolocation</code>. Example: <code>[crumb server="https://your-server/main_server" service_body="42" format_ids="17,54" view="map" geolocation="true"]</code>');
     }
     return $this->t('Use [crumb] to embed the meeting finder.');
   }

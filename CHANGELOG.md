@@ -6,6 +6,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-05-05
+
+### Added
+- **Format IDs** setting and `format_ids` shortcode/block attribute to lock the widget to specific BMLT format IDs (single ID or comma-separated list). Supported globally via the settings form, per-block via the block config form, and per-shortcode via `[crumb format_ids="17,54"]`.
+
 ## [0.1.0] - 2026-04-26
 
 Initial release. Wraps the [Crumb meeting finder widget](https://github.com/bmlt-enabled/crumb-widget) for Drupal 10.3+ / 11.
@@ -26,5 +31,6 @@ Initial release. Wraps the [Crumb meeting finder widget](https://github.com/bmlt
 - Crumb logo (`crumb-logo.svg`) and project icon (`icon-256x256.png`).
 - `LICENSE.txt` (GPL-2.0-or-later) — required for drupal.org publication.
 
-[Unreleased]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/bmlt-enabled/crumb-drupal/releases/tag/v0.1.0

@@ -49,6 +49,14 @@ class CrumbSettingsForm extends ConfigFormBase {
       '#placeholder' => '42 or 42,57,103',
     ];
 
+    $form['format_ids'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Format IDs'),
+      '#description' => $this->t('Optional. Single ID or comma-separated list of BMLT format IDs to lock the widget to. Leave empty to show all formats. Can be overridden per-block or per-shortcode.'),
+      '#default_value' => $config->get('format_ids') ?? '',
+      '#placeholder' => '17 or 17,54,78',
+    ];
+
     $form['css_template'] = [
       '#type' => 'select',
       '#title' => $this->t('CSS Template'),
@@ -156,6 +164,7 @@ class CrumbSettingsForm extends ConfigFormBase {
     $this->config('crumb.settings')
       ->set('server', trim((string) $form_state->getValue('server')))
       ->set('service_body', trim((string) $form_state->getValue('service_body')))
+      ->set('format_ids', trim((string) $form_state->getValue('format_ids')))
       ->set('css_template', (string) $form_state->getValue('css_template'))
       ->set('base_path', trim((string) $form_state->getValue('base_path'), "/ \t\n\r\0\x0B"))
       ->set('view', (string) $form_state->getValue('view'))
