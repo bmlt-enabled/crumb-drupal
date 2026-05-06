@@ -25,6 +25,7 @@ class CrumbRendererTest extends TestCase {
       'view' => '',
       'css_template' => '',
       'base_path' => '',
+      'geolocation_radius' => '',
       'widget_config' => '',
     ];
     $merged = $settings + $defaults;
@@ -152,6 +153,52 @@ class CrumbRendererTest extends TestCase {
     $head = $build['#attached']['html_head'] ?? [];
     $this->assertNotEmpty($head);
     $this->assertStringContainsString('"geolocation":true', $head[0][0]['#value']);
+  }
+
+  public function testGeolocationRadiusSettingMergesAsInteger(): void {
+    $build = $this->makeRenderer(['geolocation_radius' => '-50'])->build();
+    $head = $build['#attached']['html_head'] ?? [];
+    $this->assertNotEmpty($head);
+    $this->assertStringContainsString('"geolocationRadius":-50', $head[0][0]['#value']);
+  }
+
+  public function testGeolocationRadiusSettingPreservesIntegerType(): void {
+    $build = $this->makeRenderer(['geolocation_radius' => '25'])->build();
+    $head = $build['#attached']['html_head'] ?? [];
+    $decoded = json_decode($head[0][0]['#value'], TRUE);
+    // Extract the JSON value from the inline script.
+    preg_match('/window\.CrumbWidgetConfig\s*=\s*(\{.*\});/', $head[0][0]['#value'], $m);
+    $config = json_decode($m[1], TRUE);
+    $this->assertSame(25, $config['geolocationRadius'], 'geolocationRadius must be an integer, not a string.');
+  }
+
+  public function testGeolocationRadiusOverrideTakesPrecedenceOverSetting(): void {
+    $build = $this->makeRenderer(['geolocation_radius' => '-50'])->build(['geolocation_radius' => '30']);
+    $head = $build['#attached']['html_head'] ?? [];
+    $this->assertStringContainsString('"geolocationRadius":30', $head[0][0]['#value']);
+    $this->assertStringNotContainsString('"geolocationRadius":-50', $head[0][0]['#value']);
+  }
+
+  public function testWidgetConfigGeolocationRadiusTakesPrecedenceOverSetting(): void {
+    $build = $this->makeRenderer([
+      'geolocation_radius' => '-50',
+      'widget_config' => json_encode(['geolocationRadius' => 10]),
+    ])->build();
+    $head = $build['#attached']['html_head'] ?? [];
+    $this->assertStringContainsString('"geolocationRadius":10', $head[0][0]['#value']);
+    $this->assertStringNotContainsString('"geolocationRadius":-50', $head[0][0]['#value']);
+  }
+
+  public function testZeroGeolocationRadiusIsIgnored(): void {
+    $build = $this->makeRenderer(['geolocation_radius' => '0'])->build();
+    $head = $build['#attached']['html_head'] ?? [];
+    $this->assertEmpty($head, 'Zero radius must be ignored and produce no CrumbWidgetConfig script.');
+  }
+
+  public function testEmptyGeolocationRadiusProducesNoConfigScript(): void {
+    $build = $this->makeRenderer(['geolocation_radius' => ''])->build();
+    $head = $build['#attached']['html_head'] ?? [];
+    $this->assertEmpty($head, 'Empty radius with no other config must produce no CrumbWidgetConfig script.');
   }
 
 }

@@ -52,6 +52,7 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
       'format_ids' => '',
       'view' => '',
       'geolocation' => '',
+      'geolocation_radius' => '',
     ] + parent::defaultConfiguration();
   }
 
@@ -100,6 +101,13 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
       ],
       '#default_value' => $config['geolocation'] ?? '',
     ];
+    $form['geolocation_radius'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Geolocation Radius'),
+      '#description' => $this->t('Optional. Non-zero integer. Positive = fixed radius in miles; negative integer = BMLT auto-radius (e.g. <code>-50</code> finds ~50 nearby meetings). Leave blank to inherit.'),
+      '#default_value' => $config['geolocation_radius'] ?? '',
+      '#size' => 10,
+    ];
 
     return $form;
   }
@@ -108,7 +116,7 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state): void {
-    foreach (['server', 'service_body', 'format_ids', 'view', 'geolocation'] as $key) {
+    foreach (['server', 'service_body', 'format_ids', 'view', 'geolocation', 'geolocation_radius'] as $key) {
       $this->configuration[$key] = $form_state->getValue($key);
     }
   }
@@ -135,6 +143,9 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
     }
     if (isset($config['geolocation']) && $config['geolocation'] !== '') {
       $overrides['geolocation'] = $config['geolocation'];
+    }
+    if (isset($config['geolocation_radius']) && $config['geolocation_radius'] !== '') {
+      $overrides['geolocation_radius'] = $config['geolocation_radius'];
     }
 
     return $this->renderer->build($overrides);

@@ -20,6 +20,9 @@ crumb.settings:
     base_path:
       type: string
       label: 'Base path for pretty URLs'
+    geolocation_radius:
+      type: string
+      label: 'Geolocation radius'
     widget_config:
       type: string
       label: 'Widget configuration JSON'
@@ -43,6 +46,9 @@ block.settings.crumb_widget:
     geolocation:
       type: string
       label: 'Geolocation override'
+    geolocation_radius:
+      type: string
+      label: 'Geolocation radius override'
 
 filter_settings.crumb:
   type: filter

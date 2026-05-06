@@ -83,6 +83,23 @@ class CrumbRenderer {
       );
     }
 
+    // Merge geolocation_radius admin setting if not already set in widget_config JSON.
+    $radius_setting = (string) ($config->get('geolocation_radius') ?? '');
+    if ($radius_setting !== '' && !isset($config_array['geolocationRadius'])) {
+      $radius_int = (int) $radius_setting;
+      if ($radius_int !== 0) {
+        $config_array['geolocationRadius'] = $radius_int;
+      }
+    }
+
+    // Apply per-block / per-shortcode geolocation_radius override.
+    if (isset($overrides['geolocation_radius']) && $overrides['geolocation_radius'] !== NULL && $overrides['geolocation_radius'] !== '') {
+      $radius = (int) $overrides['geolocation_radius'];
+      if ($radius !== 0) {
+        $config_array['geolocationRadius'] = $radius;
+      }
+    }
+
     $this->moduleHandler->alter('crumb_config', $config_array);
 
     if (!empty($config_array)) {
