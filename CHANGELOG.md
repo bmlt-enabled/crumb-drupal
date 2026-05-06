@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-05-06
+
+### Added
+- **Geolocation Radius** setting — dedicated field for geolocation search radius, separate from the JSON config textarea. Positive integer = fixed radius in miles (or km per server settings). Negative integer = BMLT auto-radius (e.g. `-50` finds ~50 nearby meetings).
+- `geolocation_radius` block and shortcode attribute to override the radius per-block or per-page (`[crumb geolocation_radius="-50"]`).
+- `geolocation_radius` override respected in `hook_crumb_config_alter()` callers via the standard override array.
+
 ## [0.2.0] - 2026-05-05
 
 ### Added
@@ -31,6 +38,7 @@ Initial release. Wraps the [Crumb meeting finder widget](https://github.com/bmlt
 - Crumb logo (`crumb-logo.svg`) and project icon (`icon-256x256.png`).
 - `LICENSE.txt` (GPL-2.0-or-later) — required for drupal.org publication.
 
-[Unreleased]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/bmlt-enabled/crumb-drupal/releases/tag/v0.1.0

@@ -89,10 +89,19 @@ class CrumbSettingsForm extends ConfigFormBase {
       '#description' => $this->t('Optional. Sets the default view when the widget loads. Can be overridden via the <code>?view=</code> query parameter, or per-block / per-shortcode.'),
     ];
 
+    $form['geolocation_radius'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Geolocation Radius'),
+      '#description' => $this->t('Optional. Geolocation search radius. Positive integer = fixed radius in miles (or km per server settings). Negative integer = BMLT auto-radius (e.g. <code>-50</code> finds ~50 nearby meetings). Leave empty to use the widget default (<code>-50</code>). Ignored if <code>geolocationRadius</code> is already set in Widget Configuration JSON.'),
+      '#default_value' => $config->get('geolocation_radius') ?? '',
+      '#placeholder' => '-50',
+      '#size' => 10,
+    ];
+
     $example_config = json_encode([
       'language' => 'en',
       'geolocation' => TRUE,
-      'geolocationRadius' => 75,
+      'geolocationRadius' => -50,
       'height' => 800,
       'darkMode' => 'auto',
       'nowOffset' => 10,
@@ -127,7 +136,7 @@ class CrumbSettingsForm extends ConfigFormBase {
       '#markup' => $this->t('<p>Embed the widget in any of these ways:</p>
         <ul>
           <li><strong>Block:</strong> place the "Crumb meeting finder" block in any region.</li>
-          <li><strong>Shortcode in body fields:</strong> add the "Crumb meeting finder shortcode" filter to a text format, then use <code>[crumb]</code> or <code>[crumb server="…" service_body="42" view="map" geolocation="true"]</code>.</li>
+          <li><strong>Shortcode in body fields:</strong> add the "Crumb meeting finder shortcode" filter to a text format, then use <code>[crumb]</code> or <code>[crumb server="…" service_body="42" view="map" geolocation="true" geolocation_radius="-50"]</code>.</li>
         </ul>'),
     ];
 
@@ -139,6 +148,11 @@ class CrumbSettingsForm extends ConfigFormBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state): void {
     parent::validateForm($form, $form_state);
+
+    $geo_radius = trim((string) $form_state->getValue('geolocation_radius'));
+    if ($geo_radius !== '' && (int) $geo_radius === 0) {
+      $form_state->setErrorByName('geolocation_radius', $this->t('Geolocation Radius must be a non-zero integer (e.g. 25 or -50).'));
+    }
 
     $widget_config = trim((string) $form_state->getValue('widget_config'));
     if ($widget_config !== '') {
@@ -161,6 +175,9 @@ class CrumbSettingsForm extends ConfigFormBase {
       $widget_config = json_encode($decoded, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 
+    $geo_radius_raw = trim((string) $form_state->getValue('geolocation_radius'));
+    $geo_radius = ($geo_radius_raw !== '' && (int) $geo_radius_raw !== 0) ? (string) (int) $geo_radius_raw : '';
+
     $this->config('crumb.settings')
       ->set('server', trim((string) $form_state->getValue('server')))
       ->set('service_body', trim((string) $form_state->getValue('service_body')))
@@ -168,6 +185,7 @@ class CrumbSettingsForm extends ConfigFormBase {
       ->set('css_template', (string) $form_state->getValue('css_template'))
       ->set('base_path', trim((string) $form_state->getValue('base_path'), "/ \t\n\r\0\x0B"))
       ->set('view', (string) $form_state->getValue('view'))
+      ->set('geolocation_radius', $geo_radius)
       ->set('widget_config', $widget_config)
       ->save();
 
