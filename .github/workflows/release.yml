@@ -82,9 +82,20 @@ jobs:
           echo "ARTIFACT_PATH=$DIST_DIR_GITHUB/$GITHUB_RELEASE_FILENAME" >> $GITHUB_ENV
           echo "ARTIFACT_NAME=${ZIP_FILENAME}" >> $GITHUB_ENV
 
-      - name: Determine release type 📝
+      - name: Extract changelog and determine release type 📝
         if: github.ref_type == 'tag'
         run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          awk -v ver="$VERSION" '
+            $0 ~ "^## " ver "( |$|\\()" || $0 ~ "^## \\[" ver "\\]" { found = 1; next }
+            /^## / && found { exit }
+            found { print }
+          ' CHANGELOG.md > changelog.txt
+          if [ ! -s changelog.txt ]; then
+            echo "Release ${GITHUB_REF_NAME}." > changelog.txt
+          fi
+          echo "--- release notes ---"
+          cat changelog.txt
           RELEASE_TYPE=$(if [[ "$GITHUB_REF_NAME" =~ "beta" || "$GITHUB_REF_NAME" =~ "alpha" || "$GITHUB_REF_NAME" =~ "rc" ]]; then echo "true"; else echo "false"; fi)
           echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
 
@@ -93,5 +104,5 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: ${{ env.ARTIFACT_PATH }}
-          generateReleaseNotes: true
+          bodyFile: "changelog.txt"
           prerelease: ${{ env.RELEASE_TYPE }}
