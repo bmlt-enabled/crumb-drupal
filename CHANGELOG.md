@@ -6,6 +6,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-05-10
+
+### Added
+- **Update Meeting URL** setting on the global config form and as a per-block override, plus a matching `update_url` shortcode attribute. Powers the "Update Meeting Info" link on the meeting detail panel. Supports tokens `{meeting_id}`, `{meeting_name}`, `{server_url}`, and `{return_url}` (URL-encoded on substitution). Works with [bmlt-workflow](https://github.com/bmlt-enabled/bmlt-workflow), arbitrary hosted forms, or `mailto:` URLs. Leave empty to hide the link.
+
 ## [0.3.0] - 2026-05-06
 
 ### Added
@@ -38,7 +43,8 @@ Initial release. Wraps the [Crumb meeting finder widget](https://github.com/bmlt
 - Crumb logo (`crumb-logo.svg`) and project icon (`icon-256x256.png`).
 - `LICENSE.txt` (GPL-2.0-or-later) — required for drupal.org publication.
 
-[Unreleased]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/bmlt-enabled/crumb-drupal/releases/tag/v0.1.0

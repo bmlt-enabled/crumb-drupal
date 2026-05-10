@@ -23,6 +23,9 @@ crumb.settings:
     geolocation_radius:
       type: string
       label: 'Geolocation radius'
+    update_url:
+      type: string
+      label: 'Update meeting URL template'
     widget_config:
       type: string
       label: 'Widget configuration JSON'
@@ -49,6 +52,9 @@ block.settings.crumb_widget:
     geolocation_radius:
       type: string
       label: 'Geolocation radius override'
+    update_url:
+      type: string
+      label: 'Update meeting URL override'
 
 filter_settings.crumb:
   type: filter

@@ -53,6 +53,7 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
       'view' => '',
       'geolocation' => '',
       'geolocation_radius' => '',
+      'update_url' => '',
     ] + parent::defaultConfiguration();
   }
 
@@ -108,6 +109,14 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#default_value' => $config['geolocation_radius'] ?? '',
       '#size' => 10,
     ];
+    $form['update_url'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Update Meeting URL'),
+      '#description' => $this->t('Optional. Overrides the global Update Meeting URL template for this block. Leave empty to inherit.'),
+      '#default_value' => $config['update_url'] ?? '',
+      '#placeholder' => 'https://example.org/meeting-update-form/?meeting_id={meeting_id}',
+      '#maxlength' => 1024,
+    ];
 
     return $form;
   }
@@ -116,7 +125,7 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state): void {
-    foreach (['server', 'service_body', 'format_ids', 'view', 'geolocation', 'geolocation_radius'] as $key) {
+    foreach (['server', 'service_body', 'format_ids', 'view', 'geolocation', 'geolocation_radius', 'update_url'] as $key) {
       $this->configuration[$key] = $form_state->getValue($key);
     }
   }
@@ -146,6 +155,9 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
     }
     if (isset($config['geolocation_radius']) && $config['geolocation_radius'] !== '') {
       $overrides['geolocation_radius'] = $config['geolocation_radius'];
+    }
+    if (!empty($config['update_url'])) {
+      $overrides['update_url'] = $config['update_url'];
     }
 
     return $this->renderer->build($overrides);
