@@ -43,6 +43,7 @@ class CrumbRenderer {
     $view         = in_array($view_raw, self::ALLOWED_VIEWS, TRUE) ? $view_raw : '';
     $base_path    = trim((string) ($config->get('base_path') ?? ''), '/');
     $template     = (string) ($config->get('css_template') ?? '');
+    $update_url   = trim((string) ($overrides['update_url'] ?? $config->get('update_url') ?? ''));
 
     $attributes = [
       'id' => 'crumb-widget',
@@ -59,6 +60,9 @@ class CrumbRenderer {
     }
     if ($base_path !== '') {
       $attributes['data-path'] = '/' . $base_path;
+    }
+    if ($update_url !== '') {
+      $attributes['data-update-url'] = $update_url;
     }
 
     $widget = [

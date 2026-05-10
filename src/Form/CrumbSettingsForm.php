@@ -98,6 +98,15 @@ class CrumbSettingsForm extends ConfigFormBase {
       '#size' => 10,
     ];
 
+    $form['update_url'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Update Meeting URL'),
+      '#description' => $this->t('Optional. URL template for the "Update Meeting Info" link shown at the bottom of the meeting detail panel. Supported tokens (URL-encoded on substitution): <code>{meeting_id}</code>, <code>{meeting_name}</code>, <code>{server_url}</code>, <code>{return_url}</code>. Works with bmlt-workflow, hosted forms, or <code>mailto:</code> URLs. Leave empty to hide the link.'),
+      '#default_value' => $config->get('update_url') ?? '',
+      '#placeholder' => 'https://example.org/meeting-update-form/?meeting_id={meeting_id}',
+      '#maxlength' => 1024,
+    ];
+
     $example_config = json_encode([
       'language' => 'en',
       'geolocation' => TRUE,
@@ -186,6 +195,7 @@ class CrumbSettingsForm extends ConfigFormBase {
       ->set('base_path', trim((string) $form_state->getValue('base_path'), "/ \t\n\r\0\x0B"))
       ->set('view', (string) $form_state->getValue('view'))
       ->set('geolocation_radius', $geo_radius)
+      ->set('update_url', trim((string) $form_state->getValue('update_url')))
       ->set('widget_config', $widget_config)
       ->save();
 

@@ -26,6 +26,7 @@ class CrumbRendererTest extends TestCase {
       'css_template' => '',
       'base_path' => '',
       'geolocation_radius' => '',
+      'update_url' => '',
       'widget_config' => '',
     ];
     $merged = $settings + $defaults;
@@ -165,7 +166,6 @@ class CrumbRendererTest extends TestCase {
   public function testGeolocationRadiusSettingPreservesIntegerType(): void {
     $build = $this->makeRenderer(['geolocation_radius' => '25'])->build();
     $head = $build['#attached']['html_head'] ?? [];
-    $decoded = json_decode($head[0][0]['#value'], TRUE);
     // Extract the JSON value from the inline script.
     preg_match('/window\.CrumbWidgetConfig\s*=\s*(\{.*\});/', $head[0][0]['#value'], $m);
     $config = json_decode($m[1], TRUE);
@@ -199,6 +199,48 @@ class CrumbRendererTest extends TestCase {
     $build = $this->makeRenderer(['geolocation_radius' => ''])->build();
     $head = $build['#attached']['html_head'] ?? [];
     $this->assertEmpty($head, 'Empty radius with no other config must produce no CrumbWidgetConfig script.');
+  }
+
+  public function testUpdateUrlSettingEmitsDataAttribute(): void {
+    $build = $this->makeRenderer([
+      'update_url' => 'https://example.org/form/?meeting_id={meeting_id}',
+    ])->build();
+    $this->assertSame(
+      'https://example.org/form/?meeting_id={meeting_id}',
+      $build['widget']['#attributes']['data-update-url']
+    );
+  }
+
+  public function testUpdateUrlMailtoIsEmitted(): void {
+    $build = $this->makeRenderer([
+      'update_url' => 'mailto:web@example.org?subject=Update%20{meeting_name}',
+    ])->build();
+    $this->assertSame(
+      'mailto:web@example.org?subject=Update%20{meeting_name}',
+      $build['widget']['#attributes']['data-update-url']
+    );
+  }
+
+  public function testEmptyUpdateUrlOmitsDataAttribute(): void {
+    $build = $this->makeRenderer()->build();
+    $this->assertArrayNotHasKey('data-update-url', $build['widget']['#attributes']);
+  }
+
+  public function testUpdateUrlOverrideBeatsSavedSetting(): void {
+    $build = $this->makeRenderer([
+      'update_url' => 'https://saved/?meeting_id={meeting_id}',
+    ])->build(['update_url' => 'https://override/?meeting_id={meeting_id}']);
+    $this->assertSame(
+      'https://override/?meeting_id={meeting_id}',
+      $build['widget']['#attributes']['data-update-url']
+    );
+  }
+
+  public function testEmptyUpdateUrlOverrideOmitsAttribute(): void {
+    $build = $this->makeRenderer([
+      'update_url' => 'https://saved/?meeting_id={meeting_id}',
+    ])->build(['update_url' => '']);
+    $this->assertArrayNotHasKey('data-update-url', $build['widget']['#attributes']);
   }
 
 }
