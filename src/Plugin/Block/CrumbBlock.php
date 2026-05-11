@@ -54,6 +54,7 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
       'geolocation' => '',
       'geolocation_radius' => '',
       'update_url' => '',
+      'columns' => '',
     ] + parent::defaultConfiguration();
   }
 
@@ -117,6 +118,13 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#placeholder' => 'https://example.org/meeting-update-form/?meeting_id={meeting_id}',
       '#maxlength' => 1024,
     ];
+    $form['columns'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Columns'),
+      '#description' => $this->t('Optional. Comma-separated list of columns to show in list view. Leave empty to inherit.'),
+      '#default_value' => $config['columns'] ?? '',
+      '#placeholder' => 'time,name,location,address,service_body',
+    ];
 
     return $form;
   }
@@ -125,7 +133,17 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state): void {
-    foreach (['server', 'service_body', 'format_ids', 'view', 'geolocation', 'geolocation_radius', 'update_url'] as $key) {
+    $keys = [
+      'server',
+      'service_body',
+      'format_ids',
+      'view',
+      'geolocation',
+      'geolocation_radius',
+      'update_url',
+      'columns',
+    ];
+    foreach ($keys as $key) {
       $this->configuration[$key] = $form_state->getValue($key);
     }
   }
@@ -158,6 +176,9 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
     }
     if (!empty($config['update_url'])) {
       $overrides['update_url'] = $config['update_url'];
+    }
+    if (isset($config['columns']) && $config['columns'] !== '') {
+      $overrides['columns'] = trim($config['columns']);
     }
 
     return $this->renderer->build($overrides);

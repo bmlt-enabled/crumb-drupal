@@ -6,6 +6,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-05-11
+
+### Added
+- **Columns** setting on the global config form and as a per-block override, plus a matching `columns` shortcode attribute. Comma-separated list of columns to show in list view (e.g. `time,name,location,address,service_body`). Omit a name to hide that column. Leave empty to use the widget default.
+
 ## [0.4.0] - 2026-05-10
 
 ### Added

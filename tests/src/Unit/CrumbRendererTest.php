@@ -27,6 +27,7 @@ class CrumbRendererTest extends TestCase {
       'base_path' => '',
       'geolocation_radius' => '',
       'update_url' => '',
+      'columns' => '',
       'widget_config' => '',
     ];
     $merged = $settings + $defaults;
@@ -107,6 +108,36 @@ class CrumbRendererTest extends TestCase {
   public function testEmptyFormatIdsOverrideOmitsAttribute(): void {
     $build = $this->makeRenderer(['format_ids' => '99'])->build(['format_ids' => '']);
     $this->assertArrayNotHasKey('data-format-ids', $build['widget']['#attributes']);
+  }
+
+  public function testColumnsOverrideAddsAttribute(): void {
+    $build = $this->makeRenderer()->build(['columns' => 'time,name,location,address,service_body']);
+    $this->assertSame('time,name,location,address,service_body', $build['widget']['#attributes']['data-columns']);
+  }
+
+  public function testColumnsFromConfigAddsAttribute(): void {
+    $build = $this->makeRenderer(['columns' => 'time,name'])->build();
+    $this->assertSame('time,name', $build['widget']['#attributes']['data-columns']);
+  }
+
+  public function testEmptyColumnsOmitsAttribute(): void {
+    $build = $this->makeRenderer()->build();
+    $this->assertArrayNotHasKey('data-columns', $build['widget']['#attributes']);
+  }
+
+  public function testColumnsOverrideBeatsConfig(): void {
+    $build = $this->makeRenderer(['columns' => 'time,name'])->build(['columns' => 'name,location']);
+    $this->assertSame('name,location', $build['widget']['#attributes']['data-columns']);
+  }
+
+  public function testEmptyColumnsOverrideOmitsAttribute(): void {
+    $build = $this->makeRenderer(['columns' => 'time,name'])->build(['columns' => '']);
+    $this->assertArrayNotHasKey('data-columns', $build['widget']['#attributes']);
+  }
+
+  public function testColumnsTrimmed(): void {
+    $build = $this->makeRenderer()->build(['columns' => '  time,name  ']);
+    $this->assertSame('time,name', $build['widget']['#attributes']['data-columns']);
   }
 
   public function testInvalidViewIsIgnored(): void {
