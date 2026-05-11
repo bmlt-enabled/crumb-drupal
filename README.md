@@ -31,6 +31,7 @@ Add the **Crumb meeting finder shortcode** filter to a text format, then use:
 [crumb]
 [crumb server="https://your-server/main_server" service_body="42" view="map" geolocation="true"]
 [crumb update_url="https://example.org/meeting-update-form/?meeting_id={meeting_id}"]
+[crumb columns="time,name,location,address,service_body"]
 ```
 
 ### Programmatic
@@ -66,6 +67,7 @@ function MYMODULE_crumb_config_alter(array &$config): void {
 | CSS Template         | Optional. Full Width or Full Width (Force Viewport).   |
 | Base Path            | Optional. Page path for pretty URLs.                   |
 | Update Meeting URL   | Optional. URL template for the "Update Meeting Info" link. Tokens: `{meeting_id}`, `{meeting_name}`, `{server_url}`, `{return_url}`. Works with bmlt-workflow, hosted forms, or `mailto:` URLs. |
+| Columns              | Optional. Comma-separated list of columns to show in list view (e.g. `time,name,location,address,service_body`). Omit a name to hide that column. |
 | Widget Configuration | Optional. JSON for `CrumbWidgetConfig`.                |
 
 ## Local development

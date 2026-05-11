@@ -107,6 +107,14 @@ class CrumbSettingsForm extends ConfigFormBase {
       '#maxlength' => 1024,
     ];
 
+    $form['columns'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Columns'),
+      '#description' => $this->t('Optional. Comma-separated list of columns to show in list view (e.g. <code>time,name,location,address,service_body</code>). Omit a name to hide that column. Leave empty to use the widget default. Can be overridden per-block or per-shortcode.'),
+      '#default_value' => $config->get('columns') ?? '',
+      '#placeholder' => 'time,name,location,address,service_body',
+    ];
+
     $example_config = json_encode([
       'language' => 'en',
       'geolocation' => TRUE,
@@ -196,6 +204,7 @@ class CrumbSettingsForm extends ConfigFormBase {
       ->set('view', (string) $form_state->getValue('view'))
       ->set('geolocation_radius', $geo_radius)
       ->set('update_url', trim((string) $form_state->getValue('update_url')))
+      ->set('columns', trim((string) $form_state->getValue('columns')))
       ->set('widget_config', $widget_config)
       ->save();
 

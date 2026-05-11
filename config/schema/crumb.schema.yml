@@ -26,6 +26,9 @@ crumb.settings:
     update_url:
       type: string
       label: 'Update meeting URL template'
+    columns:
+      type: string
+      label: 'Columns'
     widget_config:
       type: string
       label: 'Widget configuration JSON'
@@ -55,6 +58,9 @@ block.settings.crumb_widget:
     update_url:
       type: string
       label: 'Update meeting URL override'
+    columns:
+      type: string
+      label: 'Columns override'
 
 filter_settings.crumb:
   type: filter
