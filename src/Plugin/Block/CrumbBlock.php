@@ -56,6 +56,7 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
       'geolocation_radius' => '',
       'update_url' => '',
       'columns' => '',
+      'query' => '',
     ] + parent::defaultConfiguration();
   }
 
@@ -148,6 +149,14 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#default_value' => $config['columns'] ?? '',
       '#placeholder' => 'time,name,location,address,service_body',
     ];
+    $form['query'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Raw BMLT query'),
+      '#description' => $this->t('Optional. Raw BMLT query string passed through to <code>rawQuery()</code> for filters the structured options can\'t express (e.g. multi-value <code>meeting_key_value[]</code>). When set, this <strong>replaces</strong> the default load entirely — Service Body and Format IDs are ignored — and forces geolocation off. Per-block only; no global setting. Example: <code>meeting_key=location_nation&amp;meeting_key_value[]=USA</code>'),
+      '#default_value' => $config['query'] ?? '',
+      '#placeholder' => 'meeting_key=location_nation&meeting_key_value[]=USA',
+      '#maxlength' => 2048,
+    ];
 
     return $form;
   }
@@ -166,6 +175,7 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
       'geolocation_radius',
       'update_url',
       'columns',
+      'query',
     ];
     foreach ($keys as $key) {
       $this->configuration[$key] = $form_state->getValue($key);
@@ -206,6 +216,9 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
     }
     if (isset($config['columns']) && $config['columns'] !== '') {
       $overrides['columns'] = trim($config['columns']);
+    }
+    if (isset($config['query']) && $config['query'] !== '') {
+      $overrides['query'] = trim($config['query']);
     }
 
     return $this->renderer->build($overrides);

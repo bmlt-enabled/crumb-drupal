@@ -67,6 +67,9 @@ block.settings.crumb_widget:
     columns:
       type: string
       label: 'Columns override'
+    query:
+      type: string
+      label: 'Raw BMLT query override'
 
 filter_settings.crumb:
   type: filter
