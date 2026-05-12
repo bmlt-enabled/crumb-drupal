@@ -141,6 +141,27 @@ class CrumbRendererTest extends TestCase {
     $this->assertSame('time,name', $build['widget']['#attributes']['data-columns']);
   }
 
+  public function testQueryOverrideAddsAttribute(): void {
+    $build = $this->makeRenderer()->build(['query' => 'meeting_key=location_nation&meeting_key_value[]=USA']);
+    $this->assertSame('meeting_key=location_nation&meeting_key_value[]=USA', $build['widget']['#attributes']['data-query']);
+  }
+
+  public function testQueryTrimmed(): void {
+    $build = $this->makeRenderer()->build(['query' => '  weekdays=2  ']);
+    $this->assertSame('weekdays=2', $build['widget']['#attributes']['data-query']);
+  }
+
+  public function testEmptyQueryOverrideOmitsAttribute(): void {
+    $build = $this->makeRenderer()->build(['query' => '']);
+    $this->assertArrayNotHasKey('data-query', $build['widget']['#attributes']);
+  }
+
+  public function testNoQueryOverrideOmitsAttribute(): void {
+    // query is per-instance only — there is no crumb.settings.query, so a default build has no data-query.
+    $build = $this->makeRenderer()->build();
+    $this->assertArrayNotHasKey('data-query', $build['widget']['#attributes']);
+  }
+
   public function testInvalidViewIsIgnored(): void {
     $build = $this->makeRenderer()->build(['view' => 'gallery']);
     $this->assertArrayNotHasKey('data-view', $build['widget']['#attributes']);

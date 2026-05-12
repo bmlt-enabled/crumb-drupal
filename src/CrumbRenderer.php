@@ -49,6 +49,9 @@ class CrumbRenderer {
     $template     = (string) ($config->get('css_template') ?? '');
     $update_url   = trim((string) ($overrides['update_url'] ?? $config->get('update_url') ?? ''));
     $columns      = trim((string) ($overrides['columns'] ?? $config->get('columns') ?? ''));
+    // Raw BMLT query — per-instance only, no global setting. When set, the widget
+    // routes through rawQuery(), disables geolocation, and ignores service_body/format_ids.
+    $query = trim((string) ($overrides['query'] ?? ''));
 
     $attributes = [
       'id' => 'crumb-widget',
@@ -71,6 +74,9 @@ class CrumbRenderer {
     }
     if ($columns !== '') {
       $attributes['data-columns'] = $columns;
+    }
+    if ($query !== '') {
+      $attributes['data-query'] = $query;
     }
 
     $widget = [

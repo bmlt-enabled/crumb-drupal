@@ -6,6 +6,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-05-12
+
+### Added
+- **Raw BMLT query** as a per-block override and matching `query` shortcode attribute (no global setting). Passes through to the Crumb widget's `data-query`, which routes through `bmlt-query-client`'s `rawQuery()` for filters the structured options can't express (e.g. multi-value `meeting_key_value[]`). When set, it replaces the default load entirely — Service Body and Format IDs are ignored — and forces geolocation off so geo params can't be layered on top. In shortcodes, encode brackets as `%5B` / `%5D` because the filter parser stops at a literal `]`. Requires Crumb Widget 1.5.0+.
+
 ## [0.6.0] - 2026-05-11
 
 ### Added
