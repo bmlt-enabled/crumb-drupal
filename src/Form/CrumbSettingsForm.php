@@ -6,6 +6,7 @@ namespace Drupal\crumb\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\crumb\CrumbRenderer;
 
 /**
  * Settings form for the Crumb widget.
@@ -87,6 +88,29 @@ class CrumbSettingsForm extends ConfigFormBase {
       ],
       '#default_value' => $config->get('view') ?? '',
       '#description' => $this->t('Optional. Sets the default view when the widget loads. Can be overridden via the <code>?view=</code> query parameter, or per-block / per-shortcode.'),
+    ];
+
+    $form['language'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Language'),
+      '#options' => [
+        '' => $this->t('— Auto-detect from browser —'),
+        'en' => 'English (en)',
+        'es' => 'Español (es)',
+        'fr' => 'Français (fr)',
+        'de' => 'Deutsch (de)',
+        'pt' => 'Português (pt)',
+        'it' => 'Italiano (it)',
+        'sv' => 'Svenska (sv)',
+        'da' => 'Dansk (da)',
+        'el' => 'Ελληνικά (el)',
+        'fa' => 'فارسی (fa)',
+        'pl' => 'Polski (pl)',
+        'ru' => 'Русский (ru)',
+        'ja' => '日本語 (ja)',
+      ],
+      '#default_value' => $config->get('language') ?? '',
+      '#description' => $this->t('Optional. Forces the widget UI language. Default behavior is to detect from the visitor\'s browser (<code>navigator.language</code>). Can be overridden per-block or per-shortcode.'),
     ];
 
     $form['geolocation_radius'] = [
@@ -202,6 +226,7 @@ class CrumbSettingsForm extends ConfigFormBase {
       ->set('css_template', (string) $form_state->getValue('css_template'))
       ->set('base_path', trim((string) $form_state->getValue('base_path'), "/ \t\n\r\0\x0B"))
       ->set('view', (string) $form_state->getValue('view'))
+      ->set('language', (string) $form_state->getValue('language'))
       ->set('geolocation_radius', $geo_radius)
       ->set('update_url', trim((string) $form_state->getValue('update_url')))
       ->set('columns', trim((string) $form_state->getValue('columns')))

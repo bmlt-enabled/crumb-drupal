@@ -14,6 +14,9 @@ crumb.settings:
     view:
       type: string
       label: 'Default view'
+    language:
+      type: string
+      label: 'Language'
     css_template:
       type: string
       label: 'CSS template'
@@ -49,6 +52,9 @@ block.settings.crumb_widget:
     view:
       type: string
       label: 'View override'
+    language:
+      type: string
+      label: 'Language override'
     geolocation:
       type: string
       label: 'Geolocation override'

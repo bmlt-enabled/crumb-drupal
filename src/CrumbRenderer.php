@@ -14,6 +14,9 @@ class CrumbRenderer {
 
   public const ALLOWED_VIEWS = ['list', 'map'];
 
+  /** Languages the widget supports (mirrors src/stores/localization.ts). */
+  public const SUPPORTED_LANGUAGES = ['en', 'es', 'fr', 'de', 'pt', 'it', 'sv', 'da', 'el', 'fa', 'pl', 'ru', 'ja'];
+
   public function __construct(
     protected ConfigFactoryInterface $configFactory,
     protected ModuleHandlerInterface $moduleHandler,
@@ -105,6 +108,20 @@ class CrumbRenderer {
       $radius = (int) $overrides['geolocation_radius'];
       if ($radius !== 0) {
         $config_array['geolocationRadius'] = $radius;
+      }
+    }
+
+    // Language: per-instance override wins; otherwise the saved setting fills in
+    // when the JSON widget_config did not already supply one. Anything that is
+    // not a supported code is silently dropped (widget falls back to navigator.language).
+    $override_lang = isset($overrides['language']) ? strtolower(trim((string) $overrides['language'])) : '';
+    if ($override_lang !== '' && in_array($override_lang, self::SUPPORTED_LANGUAGES, TRUE)) {
+      $config_array['language'] = $override_lang;
+    }
+    elseif (!isset($config_array['language'])) {
+      $saved_lang = strtolower(trim((string) ($config->get('language') ?? '')));
+      if ($saved_lang !== '' && in_array($saved_lang, self::SUPPORTED_LANGUAGES, TRUE)) {
+        $config_array['language'] = $saved_lang;
       }
     }
 
