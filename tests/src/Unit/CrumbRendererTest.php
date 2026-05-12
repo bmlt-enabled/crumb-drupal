@@ -28,6 +28,7 @@ class CrumbRendererTest extends TestCase {
       'geolocation_radius' => '',
       'update_url' => '',
       'columns' => '',
+      'language' => '',
       'widget_config' => '',
     ];
     $merged = $settings + $defaults;
@@ -166,6 +167,42 @@ class CrumbRendererTest extends TestCase {
   public function testBasePathAddsDataPath(): void {
     $build = $this->makeRenderer(['base_path' => 'meetings'])->build();
     $this->assertSame('/meetings', $build['widget']['#attributes']['data-path']);
+  }
+
+  public function testLanguageSettingMergesIntoConfig(): void {
+    $build = $this->makeRenderer(['language' => 'es'])->build();
+    $head = $build['#attached']['html_head'] ?? [];
+    $this->assertNotEmpty($head);
+    $this->assertStringContainsString('"language":"es"', $head[0][0]['#value']);
+  }
+
+  public function testLanguageOverrideTakesPrecedenceOverSetting(): void {
+    $build = $this->makeRenderer(['language' => 'es'])->build(['language' => 'de']);
+    $head = $build['#attached']['html_head'] ?? [];
+    $this->assertStringContainsString('"language":"de"', $head[0][0]['#value']);
+    $this->assertStringNotContainsString('"language":"es"', $head[0][0]['#value']);
+  }
+
+  public function testLanguageOverrideDroppedForUnsupportedCode(): void {
+    $build = $this->makeRenderer(['language' => 'es'])->build(['language' => 'banana']);
+    $head = $build['#attached']['html_head'] ?? [];
+    // Saved 'es' fills in because the unsupported override never wrote a value.
+    $this->assertStringContainsString('"language":"es"', $head[0][0]['#value']);
+  }
+
+  public function testWidgetConfigLanguageTakesPrecedenceOverSetting(): void {
+    $build = $this->makeRenderer([
+      'language' => 'es',
+      'widget_config' => json_encode(['language' => 'fr']),
+    ])->build();
+    $head = $build['#attached']['html_head'] ?? [];
+    $this->assertStringContainsString('"language":"fr"', $head[0][0]['#value']);
+  }
+
+  public function testEmptyLanguageProducesNoConfigScript(): void {
+    $build = $this->makeRenderer(['language' => ''])->build();
+    $head = $build['#attached']['html_head'] ?? [];
+    $this->assertEmpty($head, 'Empty language with no other config must produce no CrumbWidgetConfig script.');
   }
 
   public function testWidgetConfigIsEmittedAsHtmlHead(): void {

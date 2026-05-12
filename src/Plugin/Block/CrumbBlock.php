@@ -51,6 +51,7 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
       'service_body' => NULL,
       'format_ids' => '',
       'view' => '',
+      'language' => '',
       'geolocation' => '',
       'geolocation_radius' => '',
       'update_url' => '',
@@ -92,6 +93,28 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
         'map' => $this->t('Map'),
       ],
       '#default_value' => $config['view'] ?? '',
+    ];
+    $form['language'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Language'),
+      '#options' => [
+        '' => $this->t('— Inherit —'),
+        'en' => 'English (en)',
+        'es' => 'Español (es)',
+        'fr' => 'Français (fr)',
+        'de' => 'Deutsch (de)',
+        'pt' => 'Português (pt)',
+        'it' => 'Italiano (it)',
+        'sv' => 'Svenska (sv)',
+        'da' => 'Dansk (da)',
+        'el' => 'Ελληνικά (el)',
+        'fa' => 'فارسی (fa)',
+        'pl' => 'Polski (pl)',
+        'ru' => 'Русский (ru)',
+        'ja' => '日本語 (ja)',
+      ],
+      '#default_value' => $config['language'] ?? '',
+      '#description' => $this->t('Optional. Overrides the global Language setting for this block.'),
     ];
     $form['geolocation'] = [
       '#type' => 'select',
@@ -138,6 +161,7 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
       'service_body',
       'format_ids',
       'view',
+      'language',
       'geolocation',
       'geolocation_radius',
       'update_url',
@@ -167,6 +191,9 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
     }
     if (!empty($config['view'])) {
       $overrides['view'] = $config['view'];
+    }
+    if (!empty($config['language'])) {
+      $overrides['language'] = $config['language'];
     }
     if (isset($config['geolocation']) && $config['geolocation'] !== '') {
       $overrides['geolocation'] = $config['geolocation'];

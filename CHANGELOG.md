@@ -6,6 +6,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-05-11
+
+### Added
+- **Language** setting on the global config form and as a per-block override, plus a matching `language` shortcode attribute. Forces the widget UI language; leave empty to auto-detect from the visitor's browser. Supported codes: `en`, `es`, `fr`, `de`, `pt`, `it`, `sv`, `da`, `el`, `fa`, `pl`, `ru`, `ja`. Per-block / per-shortcode value overrides the saved setting; `widget_config` JSON `language` key still wins over both. Unsupported codes are silently dropped.
+
 ## [0.5.0] - 2026-05-11
 
 ### Added
