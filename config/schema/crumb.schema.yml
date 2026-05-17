@@ -23,6 +23,9 @@ crumb.settings:
     base_path:
       type: string
       label: 'Base path for pretty URLs'
+    geolocation:
+      type: string
+      label: 'Geolocation'
     geolocation_radius:
       type: string
       label: 'Geolocation radius'

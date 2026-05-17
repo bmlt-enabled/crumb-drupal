@@ -6,6 +6,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-05-17
+
+### Added
+- **Geolocation** setting on the global config form — dropdown (Widget Default / On / Off) to enable or disable location-based search (the Near Me button and typed-location search). Complements the existing per-block and per-shortcode `geolocation` overrides, which still take precedence. `widget_config` JSON `geolocation` key still wins over both.
+
 ## [0.7.0] - 2026-05-12
 
 ### Added

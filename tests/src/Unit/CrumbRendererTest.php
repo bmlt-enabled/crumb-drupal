@@ -25,6 +25,7 @@ class CrumbRendererTest extends TestCase {
       'view' => '',
       'css_template' => '',
       'base_path' => '',
+      'geolocation' => '',
       'geolocation_radius' => '',
       'update_url' => '',
       'columns' => '',
@@ -243,6 +244,42 @@ class CrumbRendererTest extends TestCase {
     $head = $build['#attached']['html_head'] ?? [];
     $this->assertNotEmpty($head);
     $this->assertStringContainsString('"geolocation":true', $head[0][0]['#value']);
+  }
+
+  public function testGeolocationSettingOnMergesIntoConfig(): void {
+    $build = $this->makeRenderer(['geolocation' => '1'])->build();
+    $head = $build['#attached']['html_head'] ?? [];
+    $this->assertNotEmpty($head);
+    $this->assertStringContainsString('"geolocation":true', $head[0][0]['#value']);
+  }
+
+  public function testGeolocationSettingOffMergesIntoConfig(): void {
+    $build = $this->makeRenderer(['geolocation' => '0'])->build();
+    $head = $build['#attached']['html_head'] ?? [];
+    $this->assertStringContainsString('"geolocation":false', $head[0][0]['#value']);
+  }
+
+  public function testEmptyGeolocationSettingProducesNoConfigScript(): void {
+    $build = $this->makeRenderer(['geolocation' => ''])->build();
+    $head = $build['#attached']['html_head'] ?? [];
+    $this->assertEmpty($head, 'Empty geolocation setting with no other config must produce no CrumbWidgetConfig script.');
+  }
+
+  public function testGeolocationOverrideTakesPrecedenceOverSetting(): void {
+    $build = $this->makeRenderer(['geolocation' => '0'])->build(['geolocation' => 'true']);
+    $head = $build['#attached']['html_head'] ?? [];
+    $this->assertStringContainsString('"geolocation":true', $head[0][0]['#value']);
+    $this->assertStringNotContainsString('"geolocation":false', $head[0][0]['#value']);
+  }
+
+  public function testWidgetConfigGeolocationTakesPrecedenceOverSetting(): void {
+    $build = $this->makeRenderer([
+      'geolocation' => '0',
+      'widget_config' => json_encode(['geolocation' => TRUE]),
+    ])->build();
+    $head = $build['#attached']['html_head'] ?? [];
+    $this->assertStringContainsString('"geolocation":true', $head[0][0]['#value']);
+    $this->assertStringNotContainsString('"geolocation":false', $head[0][0]['#value']);
   }
 
   public function testGeolocationRadiusSettingMergesAsInteger(): void {

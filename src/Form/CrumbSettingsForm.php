@@ -113,6 +113,18 @@ class CrumbSettingsForm extends ConfigFormBase {
       '#description' => $this->t('Optional. Forces the widget UI language. Default behavior is to detect from the visitor\'s browser (<code>navigator.language</code>). Can be overridden per-block or per-shortcode.'),
     ];
 
+    $form['geolocation'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Geolocation'),
+      '#options' => [
+        '' => $this->t('— Widget Default —'),
+        '1' => $this->t('On'),
+        '0' => $this->t('Off'),
+      ],
+      '#default_value' => $config->get('geolocation') ?? '',
+      '#description' => $this->t('Optional. Enable or disable location-based search (the Near Me button and typed-location search). Widget defaults to off for most servers, and on when the BMLT Server URL points at the unconstrained aggregator with no service body set. Can be overridden per-block or per-shortcode. Ignored if <code>geolocation</code> is already set in Widget Configuration JSON.'),
+    ];
+
     $form['geolocation_radius'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Geolocation Radius'),
@@ -227,6 +239,7 @@ class CrumbSettingsForm extends ConfigFormBase {
       ->set('base_path', trim((string) $form_state->getValue('base_path'), "/ \t\n\r\0\x0B"))
       ->set('view', (string) $form_state->getValue('view'))
       ->set('language', (string) $form_state->getValue('language'))
+      ->set('geolocation', (string) $form_state->getValue('geolocation'))
       ->set('geolocation_radius', $geo_radius)
       ->set('update_url', trim((string) $form_state->getValue('update_url')))
       ->set('columns', trim((string) $form_state->getValue('columns')))

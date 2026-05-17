@@ -101,6 +101,13 @@ class CrumbRenderer {
       );
     }
 
+    // Merge geolocation admin setting if neither widget_config JSON nor the per-instance
+    // override has already set it.
+    $geo_setting = (string) ($config->get('geolocation') ?? '');
+    if ($geo_setting !== '' && !isset($config_array['geolocation'])) {
+      $config_array['geolocation'] = ($geo_setting === '1');
+    }
+
     // Merge geolocation_radius admin setting if not already set in widget_config JSON.
     $radius_setting = (string) ($config->get('geolocation_radius') ?? '');
     if ($radius_setting !== '' && !isset($config_array['geolocationRadius'])) {
