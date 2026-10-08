@@ -113,6 +113,7 @@ class CrumbBlock extends BlockBase implements ContainerFactoryPluginInterface {
         'pl' => 'Polski (pl)',
         'ru' => 'Русский (ru)',
         'ja' => '日本語 (ja)',
+        'fi' => 'Suomi (fi)',
       ],
       '#default_value' => $config['language'] ?? '',
       '#description' => $this->t('Optional. Overrides the global Language setting for this block.'),
