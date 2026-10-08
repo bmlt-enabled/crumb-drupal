@@ -68,7 +68,12 @@ Initial release. Wraps the [Crumb meeting finder widget](https://github.com/bmlt
 - Crumb logo (`crumb-logo.svg`) and project icon (`icon-256x256.png`).
 - `LICENSE.txt` (GPL-2.0-or-later) — required for drupal.org publication.
 
-[Unreleased]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.8.0...v0.9.0
+[0.8.0]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.7.0...v0.8.0
+[0.7.0]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.6.0...v0.7.0
+[0.6.0]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.5.0...v0.6.0
+[0.5.0]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/bmlt-enabled/crumb-drupal/compare/v0.1.0...v0.2.0
