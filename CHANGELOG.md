@@ -6,6 +6,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-10-08
+
 ### Added
 - **Finnish** (`fi`) in the Language setting, the per-block override, and the `language` shortcode attribute. Requires the Crumb Widget release that ships Finnish (loaded from the CDN).
 
