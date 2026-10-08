@@ -16,7 +16,9 @@ class CrumbRenderer {
 
   /**
    * Languages the widget supports (mirrors src/stores/localization.ts). */
-  public const SUPPORTED_LANGUAGES = ['en', 'es', 'fr', 'de', 'pt', 'it', 'sv', 'da', 'el', 'fa', 'pl', 'ru', 'ja'];
+  public const SUPPORTED_LANGUAGES = [
+    'en', 'es', 'fr', 'de', 'pt', 'it', 'sv', 'da', 'el', 'fa', 'pl', 'ru', 'ja', 'fi',
+  ];
 
   public function __construct(
     protected ConfigFactoryInterface $configFactory,

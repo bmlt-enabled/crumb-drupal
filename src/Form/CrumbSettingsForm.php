@@ -108,6 +108,7 @@ class CrumbSettingsForm extends ConfigFormBase {
         'pl' => 'Polski (pl)',
         'ru' => 'Русский (ru)',
         'ja' => '日本語 (ja)',
+        'fi' => 'Suomi (fi)',
       ],
       '#default_value' => $config->get('language') ?? '',
       '#description' => $this->t('Optional. Forces the widget UI language. Default behavior is to detect from the visitor\'s browser (<code>navigator.language</code>). Can be overridden per-block or per-shortcode.'),

@@ -65,7 +65,7 @@ function MYMODULE_crumb_config_alter(array &$config): void {
 | Server URL           | Required. Full URL to your BMLT Server.                |
 | Service Body IDs     | Optional. Single ID or comma-separated.                |
 | Default View         | Optional. `list` or `map`.                             |
-| Language             | Optional. Forces the UI language (`en`, `es`, `fr`, `de`, `pt`, `it`, `sv`, `da`, `el`, `fa`, `pl`, `ru`, `ja`). Empty = auto-detect from browser. |
+| Language             | Optional. Forces the UI language (`en`, `es`, `fr`, `de`, `pt`, `it`, `sv`, `da`, `el`, `fa`, `pl`, `ru`, `ja`, `fi`). Empty = auto-detect from browser. |
 | CSS Template         | Optional. Full Width or Full Width (Force Viewport).   |
 | Base Path            | Optional. Page path for pretty URLs.                   |
 | Update Meeting URL   | Optional. URL template for the "Update Meeting Info" link. Tokens: `{meeting_id}`, `{meeting_name}`, `{server_url}`, `{return_url}`. Works with bmlt-workflow, hosted forms, or `mailto:` URLs. |

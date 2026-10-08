@@ -205,6 +205,12 @@ class CrumbRendererTest extends TestCase {
     $this->assertStringNotContainsString('"language":"es"', $head[0][0]['#value']);
   }
 
+  public function testFinnishLanguageOverrideAccepted(): void {
+    $build = $this->makeRenderer(['language' => 'es'])->build(['language' => 'fi']);
+    $head = $build['#attached']['html_head'] ?? [];
+    $this->assertStringContainsString('"language":"fi"', $head[0][0]['#value']);
+  }
+
   public function testLanguageOverrideDroppedForUnsupportedCode(): void {
     $build = $this->makeRenderer(['language' => 'es'])->build(['language' => 'banana']);
     $head = $build['#attached']['html_head'] ?? [];
